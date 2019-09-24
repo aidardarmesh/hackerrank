@@ -6,7 +6,6 @@ def count_sort(A):
     max_val = -99999999
 
     for val in A: # time compl-ty: O(n)
-        print(val)
         if max_val < val:
             max_val = val
     
@@ -17,16 +16,14 @@ def count_sort(A):
     
     A_new = []
 
-    for i in range(0, max_val+1): # time compl-ty: O(max_val*n)
+    for i in range(0, max_val+1): # time compl-ty: O(max_val)
         if A_counter[i] > 0:
-            while A_counter[i] > 0:
-                A_new.append(i)
-                A_counter[i] -= 1
+            A_new += [i for x in range(0, A_counter[i])] # space compl-ty: O(max_val)
     
     return A_new
 
     # total
-    # time compl-ty: O(m*n) + O(m) + O(n) = O(m*n)
+    # time compl-ty: O(m+n) + O(m) + O(n) = O(m+n)
     # aux space: O(m)
 
     # a) wasted space on 0-valued items in A_counter. Need to optimize by using dict
