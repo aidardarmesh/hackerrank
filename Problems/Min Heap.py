@@ -18,24 +18,25 @@ class MinHeap:
         return self.get_right_child_index(index) < self.size
 
     def has_parent(self, index):
-        return get_parent_index(index) >= 0
+        return self.get_parent_index(index) >= 0
 
     def left_child(self, index):
-        return items[self.get_left_child_index(index)]
+        return self.items[self.get_left_child_index(index)]
 
     def right_child(self, index):
-        return items[self.get_right_child_index(index)]
+        return self.items[self.get_right_child_index(index)]
 
     def parent(self, index):
-        return items[self.get_parent_index(index)]
+        return self.items[self.get_parent_index(index)]
     
     def is_empty(self):
         return self.size == 0
 
     def poll(self):
-        item = items[0]
-        items[0] = self.items.pop()
+        item = self.items[0]
         self.size -= 1
+        self.items[0] = self.items[self.size]
+        self.items.pop()
         self.heapify_down()
 
         return item
@@ -48,7 +49,7 @@ class MinHeap:
     def heapify_up(self):
         index = self.size - 1
 
-        while(self.has_parent(index) && self.parent(index) > self.items[index]):
+        while(self.has_parent(index) and self.parent(index) > self.items[index]):
             parent_index = self.get_parent_index(index)
             self.items[index], self.items[parent_index] = self.items[parent_index], self.items[index]
             index = parent_index
@@ -59,7 +60,7 @@ class MinHeap:
         while(self.has_left_child(index)):
             smallerChildIndex = self.get_left_child_index(index)
 
-            if self.has_right_child(index) && self.right_child(index) < self.left_child(index):
+            if self.has_right_child(index) and self.right_child(index) < self.left_child(index):
                 smallerChildIndex = self.get_right_child_index(index)
             
             if self.items[index] < self.items[smallerChildIndex]:
@@ -67,3 +68,18 @@ class MinHeap:
                 
             self.items[index], self.items[smallerChildIndex] = self.items[smallerChildIndex], self.items[index]
             index = smallerChildIndex
+
+m = MinHeap()
+m.add(2)
+print(m.items, m.size)
+m.add(1)
+print(m.items, m.size)
+print(m.poll())
+print(m.items)
+print(m.poll(), m.items)
+m.add(8)
+m.add(1)
+m.add(5)
+m.add(9)
+print(m.items)
+print(m.poll(), m.poll(), m.poll(), m.poll())
